@@ -130,8 +130,11 @@ def event_time_difference_team(es, index_name = "events"):
 
     print "8. Average Time Difference between events per team: "
     for dict in event_time_team['aggregations']['teams']['buckets']:
+
+        time_difference = (dict['time_stats']['max'] - dict['time_stats']['min']) /  (dict['time_stats']['count'] - 1)
+
         print ("\tTeam: " + dict['key'] + "\t\tTime Difference: " + 
-           str((dict['time_stats']['max'] - dict['time_stats']['min'])/dict['time_stats']['count']) + " milliseconds")
+           str(time_difference)  + " milliseconds")
 
 
 def same_event_time_difference_team(es, index_name = "events"):
@@ -158,6 +161,9 @@ def same_event_time_difference_team(es, index_name = "events"):
     for dict1 in event_type_count['aggregations']['teams']['buckets']:
         print "\tTeam: " + str(dict1['key'])
         for dict2 in dict1['events']['buckets']:
+
+            time_difference = (dict2['time_stats']['max'] - dict2['time_stats']['min']) /  (dict2['time_stats']['count'] - 1)
+
             print ("\t\tEvent: " + dict2['key'] + "\t\tTime Difference: " + 
-               str((dict2['time_stats']['max'] - dict2['time_stats']['min'])/dict2['time_stats']['count']) + " milliseconds")
+               str(time_difference) + " milliseconds")
 
